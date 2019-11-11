@@ -1,5 +1,5 @@
 import fs from 'fs';
-import _ from 'lodash';
+import { has } from 'lodash';
 
 const showDiff = (obj1, obj2) => {
     const diffArr = [];
