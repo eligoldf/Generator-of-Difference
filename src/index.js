@@ -25,9 +25,9 @@ const showDiff = (obj1, obj2) => {
     return diffArr.join('\n');
   };
 
-const genDiff = (pathTofile1, pathTofile2) => {
-    const firstFile = fs.readFileSync(pathTofile1, 'utf8');
-    const secondFile = fs.readFileSync(pathTofile2, 'utf8');
+const genDiff = (pathToFile1, pathToFile2) => {
+    const firstFile = fs.readFileSync(pathToFile1, 'utf8');
+    const secondFile = fs.readFileSync(pathToFile2, 'utf8');
 
     const config1 = JSON.parse(firstFile);
     const config2 = JSON.parse(secondFile);
