@@ -1,13 +1,22 @@
 install: install-deps
 
-install-deps: 
+run:
+	npx babel-node 'src/bin/hexlet.js' 10
+
+install-deps:
 	npm install
 
-start: 
-	npx babel-node src/bin/gendiff.js
+build:
+	rm -rf dist
+	npm run build
 
-publish: 
-	npm publish --dry-run
+test:
+	npm test
 
-lint: 
+lint:
 	npx eslint .
+
+publish:
+	npm publish
+
+.PHONY: test
