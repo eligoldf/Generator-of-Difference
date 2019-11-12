@@ -5,8 +5,8 @@ node_js:
   - node
 
   env:
-  global:
-    - CC_TEST_REPORTER_ID=3f252f35eb5b04d95fd6512ceeb0e18f5866dfe9e9d42249aedcb8d7416eb47d
+   global:
+     - CC_TEST_REPORTER_ID=fc79f33097b4999ad0a5602e5b4edcc1a7bbfc2baf0f5a934a8db15fc79f33097b4999ad0a5602e5b4edcc1a7bbfc2baf0f5a934a8db15d0a5ef028d0a5ef028
 
 
 before_script:
