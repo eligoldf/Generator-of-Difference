@@ -6,9 +6,8 @@ run:
 install-deps:
 	npm install
 
-build:
-	rm -rf dist
-	npm run build
+publish: 
+	npm publish --dry-run
 
 test:
 	npm test
@@ -19,5 +18,3 @@ test-coverage:
 lint:
 	npx eslint .
 
-publish:
-	npm publish
