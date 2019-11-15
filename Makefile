@@ -1,4 +1,4 @@
-install: install-deps
+install: npm install-deps
 
 run:
 	npx babel-node 'src/bin/gendiff.js'

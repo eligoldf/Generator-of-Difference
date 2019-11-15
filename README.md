@@ -9,4 +9,10 @@ GenDiff
 
 CLI utility that compares two configuration files and shows difference: 
 
+Difference between two Json files: 
+
 [![asciicast](https://asciinema.org/a/CYNO4m3BrHVSHzQkd1gLPEEoK.svg)](https://asciinema.org/a/CYNO4m3BrHVSHzQkd1gLPEEoK)
+
+Difference between two YAML files: 
+
+[![asciicast](https://asciinema.org/a/Kh8K39dGAY0lXYSn2g1IKM3Wq.svg)](https://asciinema.org/a/Kh8K39dGAY0lXYSn2g1IKM3Wq)

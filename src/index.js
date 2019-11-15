@@ -1,5 +1,7 @@
 import fs from 'fs';
 import { has } from 'lodash';
+import path from 'path';
+import parser from './parsers';
 
 const showDiff = (obj1, obj2) => {
   const firstObjectKeys = Object.keys(obj1);
@@ -18,21 +20,27 @@ const showDiff = (obj1, obj2) => {
     }
 
     if (obj1[key] === obj2[key]) {
-      return { ...acc, [key]: 'unchange' };
+      return { ...acc, [key]: 'unchanged' };
     }
 
     return { ...acc, [key]: 'changed' };
   }, {});
 };
 
+const parseFile = (filePath) => {
+  const file = fs.readFileSync(filePath);
+  const fileFormat = path.extname(filePath).split('.')[1];
+  return parser(file, fileFormat);
+};
+
 const genDiff = (path1, path2) => {
-  const firstFile = JSON.parse(fs.readFileSync(path1));
-  const secondFile = JSON.parse(fs.readFileSync(path2));
+  const firstFile = parseFile(path1);
+  const secondFile = parseFile(path2);
 
   const objDiffState = {
     added: (key) => ` + ${key}: ${secondFile[key]}`,
     deleted: (key) => ` - ${key}: ${firstFile[key]}`,
-    unchange: (key) => `  ${key}: ${secondFile[key]}`,
+    unchanged: (key) => `  ${key}: ${secondFile[key]}`,
     changed: (key) => ` + ${key}: ${secondFile[key]}\n  - ${key}: ${firstFile[key]}`,
   };
 
