@@ -28,7 +28,7 @@ const showDiff = (obj1, obj2) => {
 };
 
 const parseFile = (filePath) => {
-  const file = fs.readFileSync(filePath);
+  const file = fs.readFileSync(filePath, 'utf-8');
   const fileFormat = path.extname(filePath).split('.')[1];
   return parser(file, fileFormat);
 };
