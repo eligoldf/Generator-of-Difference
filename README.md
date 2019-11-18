@@ -20,3 +20,7 @@ Difference between two YAML files:
 Difference between INI files: 
 
 [![asciicast](https://asciinema.org/a/0cSWcwZWaUNnRZlENEm75EVml.svg)](https://asciinema.org/a/0cSWcwZWaUNnRZlENEm75EVml)
+
+Difference between nested filed: 
+
+[![asciicast](https://asciinema.org/a/x1fx3pxN5W9uU2LxxAguPbNj1.svg)](https://asciinema.org/a/x1fx3pxN5W9uU2LxxAguPbNj1)
