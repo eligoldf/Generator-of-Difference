@@ -1,63 +1,43 @@
-import { has, union, flatten } from 'lodash';
+import { has, union } from 'lodash/fp';
+
+const actions = [
+  {
+    type: 'added',
+    check: (obj1, obj2, key) => !has(key, obj1) && has(key, obj2),
+    action: (key, obj1, obj2) => ({ valueTo: obj2[key] }),
+  },
+  {
+    type: 'deleted',
+    check: (obj1, obj2, key) => has(key, obj1) && !has(key, obj2),
+    action: (key, obj1) => ({ valueFrom: obj1[key] }),
+  },
+  {
+    type: 'nested',
+    check: (obj1, obj2, key) => typeof obj1[key] === 'object' && typeof obj2[key] === 'object',
+    action: (key, obj1, obj2, fn) => ({ children: fn(obj1[key], obj2[key]) }),
+  },
+  {
+    type: 'unchanged',
+    check: (obj1, obj2, key) => obj1[key] === obj2[key],
+    action: (key, obj1, obj2) => ({ valueFrom: obj1[key], valueTo: obj2[key] }),
+  },
+  {
+    type: 'changed',
+    check: (obj1, obj2, key) => has(key, obj1) && has(key, obj2) && obj1[key] !== obj2[key],
+    action: (key, obj1, obj2) => ({ valueFrom: obj1[key], valueTo: obj2[key] }),
+  },
+];
+
+const getAction = (obj1, obj2, key) => actions.find(({ check }) => check(obj1, obj2, key));
 
 const makeAST = (obj1, obj2) => {
-  const keys = union(Object.keys(obj1), Object.keys(obj2));
-
+  const keys = union(Object.keys(obj2), Object.keys(obj1));
   const result = keys.map((key) => {
-    const name = key;
-
-    if (!has(obj1, key)) {
-      const type = typeof obj2[key];
-      const value = obj2[key];
-      const status = 'added';
-      return {
-        name, type, value, status,
-      };
-    }
-
-    if (!has(obj2, key)) {
-      const type = typeof obj1[key];
-      const value = obj1[key];
-      const status = 'deleted';
-      return {
-        name, type, value, status,
-      };
-    }
-
-    if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-      const status = 'changeless';
-      const children = makeAST(obj1[key], obj2[key]);
-      return {
-        name, type: 'object', value: '', status, children,
-      };
-    }
-
-    if (obj1[key] === obj2[key]) {
-      const status = 'changeless';
-      const type = typeof obj1[key];
-      const value = obj1[key];
-      return {
-        name, type, value, status,
-      };
-    }
-
-    const status1 = 'deleted';
-    const status2 = 'added';
-    const type1 = typeof obj1[key];
-    const type2 = typeof obj2[key];
-    const value1 = obj1[key];
-    const value2 = obj2[key];
-
-    return [
-      {
-        name, status: status2, type: type2, value: value2,
-      },
-      {
-        name, status: status1, type: type1, value: value1,
-      }];
+    const { type, action } = getAction(obj1, obj2, key);
+    return { name: key, type, ...action(key, obj1, obj2, makeAST) };
   });
 
-  return flatten(result);
+  return result;
 };
 
 export default makeAST;

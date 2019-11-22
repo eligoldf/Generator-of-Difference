@@ -1,29 +1,35 @@
 import fs from 'fs';
 import genDiff from '../src';
 
-
 describe('test genDiff', () => {
-  const flatTestResult = fs.readFileSync('__tests__/__fixtures__/flatTestResult.txt', 'utf8');
-  const flatFileTypes = ['json', 'yml', 'ini'];
+  const jsonResultPath = '__tests__/__fixtures__/resultJSON.txt';
+  const resultJSON = fs.readFileSync(jsonResultPath, 'utf-8');
 
-  const nestedTestResult = fs.readFileSync('__tests__/__fixtures__/nestedTestResult.txt', 'utf8');
-  const nestedFileTypes = ['json', 'yml', 'ini'];
+  const nestedResultPath = '__tests__/__fixtures__/resultNested.txt';
+  const nestedResult = fs.readFileSync(nestedResultPath, 'utf-8');
 
-  test.each(flatFileTypes)(
-    'finding diff between flat %s files',
+  const plainResultPath = '__tests__/__fixtures__/resultPlain.txt';
+  const plainResult = fs.readFileSync(plainResultPath, 'utf-8');
+
+  const fileTypes = ['json', 'yml', 'ini'];
+
+  describe.each(fileTypes)(
+    'find difference between %s files',
     (type) => {
       const before = `__tests__/__fixtures__/before.${type}`;
       const after = `__tests__/__fixtures__/after.${type}`;
-      expect(genDiff(before, after)).toBe(flatTestResult);
-    },
-  );
 
-  test.each(nestedFileTypes)(
-    'finding diff between nested %s files',
-    (type) => {
-      const before = `__tests__/__fixtures__/beforeNested.${type}`;
-      const after = `__tests__/__fixtures__/afterNested.${type}`;
-      expect(genDiff(before, after)).toBe(nestedTestResult);
+      test('JSON test', () => {
+        expect(genDiff(before, after, 'json')).toBe(resultJSON);
+      });
+
+      test('nested test', () => {
+        expect(genDiff(before, after, 'nested')).toBe(nestedResult);
+      });
+
+      test('tree plain', () => {
+        expect(genDiff(before, after, 'plain')).toBe(plainResult);
+      });
     },
   );
 });
