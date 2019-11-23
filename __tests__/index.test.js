@@ -27,7 +27,7 @@ describe('test genDiff', () => {
         expect(genDiff(before, after, 'nested')).toBe(nestedResult);
       });
 
-      test('tree plain', () => {
+      test('plain test', () => {
         expect(genDiff(before, after, 'plain')).toBe(plainResult);
       });
     },
