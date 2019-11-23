@@ -20,17 +20,17 @@ const nestedFormatter = (tree, depth = 0) => {
   const textSpace = 4;
 
   const spaceLength = braceSpace + depth * textSpace;
-  const space = ' '.repeat(spaceLength);
+  const makeSpace = ' '.repeat(spaceLength);
   const typeMap = {
-    added: ({ name, valueTo }) => getString(space, '+', name, [valueTo, depth + 1, textSpace]),
+    added: ({ name, valueTo }) => getString(makeSpace, '+', name, [valueTo, depth + 1, textSpace]),
 
-    deleted: ({ name, valueFrom }) => getString(space, '-', name, [valueFrom, depth + 1, textSpace]),
+    deleted: ({ name, valueFrom }) => getString(makeSpace, '-', name, [valueFrom, depth + 1, textSpace]),
 
-    unchanged: ({ name, valueTo }) => getString(space, ' ', name, [valueTo, depth + 1, textSpace]),
+    unchanged: ({ name, valueTo }) => getString(makeSpace, ' ', name, [valueTo, depth + 1, textSpace]),
 
     changed: (el) => [typeMap.added(el), typeMap.deleted(el)],
 
-    nested: ({ children, name }) => `${space}  ${name}: ${nestedFormatter(children, depth + 1, textSpace)}`,
+    nested: ({ children, name }) => `${makeSpace}  ${name}: ${nestedFormatter(children, depth + 1, textSpace)}`,
   };
 
   const mappedTree = tree.map((el) => typeMap[el.type](el));
