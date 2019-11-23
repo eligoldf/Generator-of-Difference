@@ -11,6 +11,7 @@ CLI utility that compares two configuration files and shows difference:
 
 ## Installation 
 > $ make publish
+
 > $ npm link
 
 ## Usage example

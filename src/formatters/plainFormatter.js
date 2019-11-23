@@ -5,7 +5,7 @@ const stringify = (value) => {
     return '[complex value]';
   }
 
-  if (!/\D/.test(value) || typeof value === 'boolean') {
+  if (typeof value === 'boolean') {
     return value;
   }
 
